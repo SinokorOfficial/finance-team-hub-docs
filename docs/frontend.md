@@ -50,7 +50,7 @@
 ```
 
 - `t` 는 입력 유형: `text` · `ta`(여러 줄) · `select` · `selectEtc`(기타 직접 입력) · `date` · `check` · `owner` · `people` · `files` · `note`.
-- `reqWhen` 은 조건부 필수 — `manual`(사용안내)은 상태가 `운영중` 일 때만 필수입니다([ADR-0009](adr/0009-manual-required-when-live.md)).
+- `reqWhen` 은 조건부 필수 — `manual`(사용안내 요약)과 `files`(매뉴얼 문서 첨부)는 상태가 `운영중` 일 때만 필수입니다([ADR-0009](adr/0009-manual-required-when-live.md) · [ADR-0011](adr/0011-manual-document-attachment.md)). 배열 값인 `files` 는 빈 배열이 통과하지 않도록 `manualDocOk()` 로 따로 봅니다.
 - 폼은 `FIELDS` 를 훑어 만들고(`fieldHtml`), 다시 훑어 값을 걷습니다(`collectForm`). 항목을 하나 추가할 때 손댈 곳은 `FIELDS` 뿐입니다.
 
 ## 상태 변수

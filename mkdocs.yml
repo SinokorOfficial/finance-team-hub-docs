@@ -43,6 +43,7 @@ nav:
   - ADR (아키텍처 결정 기록):
       - 개요: architecture-decisions.md
       - ADR-0010 · 수정 이력은 서버가 남긴다: adr/0010-server-side-history.md
+      - ADR-0011 · 매뉴얼은 문서 파일 첨부까지 필수: adr/0011-manual-document-attachment.md
       - ADR-0009 · 사용안내는 운영중 과제만 필수: adr/0009-manual-required-when-live.md
       - ADR-0008 · 효과 지표는 그룹 AX 대시보드와 동일 기준: adr/0008-savings-parity-with-group-ax.md
       - ADR-0007 · 첨부파일은 서버 파일시스템에: adr/0007-attachments-on-filesystem.md
