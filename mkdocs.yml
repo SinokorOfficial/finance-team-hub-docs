@@ -1,0 +1,102 @@
+site_name: 자금팀 허브 · 개발 문서
+site_description: 장금상선 자금팀 AI 프로젝트 허브(팀 과제 현황판)의 기술·운영·인수인계 문서 (공개판)
+site_url: https://sinokorofficial.github.io/finance-team-hub-docs/
+
+repo_name: finance-team-hub-docs
+repo_url: https://github.com/SinokorOfficial/finance-team-hub-docs
+
+docs_dir: docs
+
+# 코드 저장소(finance-team-hub)는 비공개입니다. 본 문서는 아키텍처·설계·운영 설명용 공개판으로,
+# 사내망 주소·직원 이름·이메일·실제 과제 내용 등 민감 정보는 포함하지 않습니다.
+
+nav:
+  - 홈: index.md
+
+  - 시스템:
+      - 아키텍처 개요: architecture.md
+      - 모듈 맵: modules.md
+      - 배포 (GitHub Actions → 사내 서버 PC): deployment.md
+
+  - 데이터:
+      - 데이터 모델·스키마: data-model.md
+
+  - 인증·권한:
+      - 인증 (로그인·가입·승인): auth.md
+      - 역할·권한 (RBAC): rbac.md
+
+  - 기능:
+      - 기능 카탈로그: features.md
+      - 효과 지표 (그룹 AX 동일 기준): savings.md
+      - 엑셀 양식·업로드·내보내기: excel.md
+
+  - API: api.md
+
+  - 프론트엔드:
+      - 프론트엔드 아키텍처: frontend.md
+      - 디자인 시스템: design-system.md
+
+  - 운영·인수인계:
+      - 서버 PC 운영: operations.md
+      - 인수인계 체크리스트: handover.md
+
+  - ADR (아키텍처 결정 기록):
+      - 개요: architecture-decisions.md
+      - ADR-0010 · 수정 이력은 서버가 남긴다: adr/0010-server-side-history.md
+      - ADR-0009 · 사용안내는 운영중 과제만 필수: adr/0009-manual-required-when-live.md
+      - ADR-0008 · 효과 지표는 그룹 AX 대시보드와 동일 기준: adr/0008-savings-parity-with-group-ax.md
+      - ADR-0007 · 첨부파일은 서버 파일시스템에: adr/0007-attachments-on-filesystem.md
+      - ADR-0006 · 서버 PC 예약 작업은 로그인 계정 + S4U: adr/0006-scheduled-tasks-user-s4u.md
+      - ADR-0005 · ★ 과제는 승인 절차, 그 외는 담당자 직접 수정: adr/0005-approval-only-for-starred.md
+      - ADR-0004 · 담당자 권한은 계정(이메일)으로만 판정: adr/0004-owner-by-account-email.md
+      - ADR-0003 · 문서형 저장소(SQLite 단일 표): adr/0003-document-store-on-sqlite.md
+      - ADR-0002 · 화면 소스 한 벌, 연결 층만 교체: adr/0002-single-frontend-with-adapter.md
+      - ADR-0001 · Artifact판에서 사내 서버판으로: adr/0001-artifact-to-onprem.md
+
+  - 변경 이력: changelog.md
+
+theme:
+  name: material
+  language: ko
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/weather-night
+        name: 다크 모드로
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/weather-sunny
+        name: 라이트 모드로
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.inlinehilite
+  - pymdownx.details
