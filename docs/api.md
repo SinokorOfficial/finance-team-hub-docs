@@ -37,7 +37,7 @@
 
 | 메서드 · 경로 | 권한 | 하는 일 | 본문 / 응답 |
 |---|---|---|---|
-| `GET /api/db/{coll}` | 로그인 | 컬렉션 전체 읽기 | → `{docs:[{id, data, version, updatedAt}]}` |
+| `GET /api/db/{coll}` | 로그인 | 컬렉션 전체 읽기 | → `{docs:[{id, data, version, updatedAt}]}`. 조회 전용 계정에는 ★ 과제만 내려옵니다([RBAC 1.1절](rbac.md)) |
 | `GET /api/db/{coll}/{id}` | 로그인 | 문서 1건 읽기 | → `{exists:true, id, data, version, updatedAt}`. 없으면 `{exists:false, id}`(200), 볼 수 없는 문서면 403 |
 | `POST /api/db/{coll}` | 로그인 + 규칙 | 문서 생성(서버가 id 발급) | 본문 = 문서 전체 → `{id}` |
 | `PUT /api/db/{coll}/{id}` | 로그인 + 규칙 | 문서 통째로 교체 | 본문 = 문서 전체 → `{ok:true, version}` |
@@ -79,7 +79,7 @@
 
 | 메서드 · 경로 | 권한 | 하는 일 |
 |---|---|---|
-| `GET /api/stream` | 로그인 | 문서가 바뀌면 접속 중인 모든 화면에 알립니다(`text/event-stream`) |
+| `GET /api/stream` | 로그인 | 문서가 바뀌면 접속 중인 모든 화면에 알립니다(`text/event-stream`). 권한에 안 맞는 계정 문서는 가려서, 조회 전용 계정에 안 보이는 과제는 삭제로 바꿔 보냅니다 |
 
 - 접속하면 먼저 `retry: 3000` 과 `event: hello` 를 보냅니다. 끊기면 브라우저가 3초 뒤 스스로 다시 붙습니다.
 - 문서 1건이 바뀔 때 보내는 내용: `{coll, id, data, version, updatedAt}`. 삭제는 `data`가 `null`입니다.
@@ -92,8 +92,8 @@
 
 | 메서드 · 경로 | 권한 | 하는 일 |
 |---|---|---|
-| `GET /api/export/status.xlsx` | 로그인 | 팀 현황 엑셀(취합 양식 서식 그대로) |
-| `GET /api/export/group-fill.xlsx` | 로그인 | 그룹 대시보드 '등록된 과제 채우기' 양식 |
+| `GET /api/export/status.xlsx` | 로그인 | 팀 현황 엑셀(취합 양식 서식 그대로) — 조회 전용 계정은 ★ 과제만 |
+| `GET /api/export/group-fill.xlsx` | 로그인 | 그룹 대시보드 '등록된 과제 채우기' 양식 — 조회 전용 계정은 ★ 과제만 |
 
 - 둘 다 `Content-Disposition: attachment` + `Cache-Control: no-store`로 나갑니다. 파일 이름은 UTF-8로 인코딩합니다.
 - 그룹 양식은 변환 중 생긴 예외(선택지 불일치 등)를 응답 헤더 **`X-Export-Info`** 에 URL 인코딩한 JSON으로 함께 돌려줍니다. 화면이 이 값을 읽어 안내로 보여 줍니다.
@@ -103,7 +103,7 @@
 
 | 메서드 · 경로 | 권한 | 하는 일 |
 |---|---|---|
-| `GET /api/history/{coll}/{id}?limit=30` | 로그인 | 과제가 언제·누구에 의해·어떻게 바뀌었는지 |
+| `GET /api/history/{coll}/{id}?limit=30` | 로그인 | 과제가 언제·누구에 의해·어떻게 바뀌었는지 (조회 전용 계정은 ★ 과제만, 나머지는 403) |
 
 - **`projects`만** 기록합니다. 다른 컬렉션으로 물으면 빈 목록(`{items:[]}`)이 옵니다.
 - 응답: `{items:[{ts, who, action, changes:[{k, a, b}]}]}` — `k`는 필드 키, `a`는 이전 값, `b`는 새 값입니다. 항목 이름은 화면이 라벨로 바꿔 보여 줍니다.
@@ -114,7 +114,7 @@
 | 메서드 · 경로 | 권한 | 하는 일 |
 |---|---|---|
 | `POST /api/files?name=파일이름` | 조회 전용 제외 | 파일 올리기. **본문이 파일 자체**(폼 전송이 아닙니다), 이름은 쿼리로 전달 |
-| `GET /api/files/{fid}` | 로그인 | 내려받기 |
+| `GET /api/files/{fid}` | 로그인 | 내려받기 (조회 전용 계정은 ★ 과제에 붙은 첨부만) |
 | `POST /api/files/zip` | 로그인 | 고른 파일들을 압축파일 하나로 — 본문 `{ids:[…]}`, 폴더 이름(과제명)은 서버가 과제 문서에서 찾음, 같은 이름은 `(2)`·`(3)`, 300개·합계 200MB 상한 |
 | `DELETE /api/files/{fid}` | 올린 사람 · 관리자 | 파일 삭제 |
 
